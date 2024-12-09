@@ -1,8 +1,39 @@
+import subprocess
+import sys
+import tkinter as tk
+from tkinter import messagebox
+
+# List of libraries to check and install
+libraries = ["flet", "math", "aiohttp", "asyncio"]
+
+# Function to check and install libraries
+def check_and_install_libraries():
+    for library in libraries:
+        try:
+            __import__(library)
+        except ImportError:
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", library])
+                messagebox.showinfo("Library Installed", f"The library '{library}' has been installed.")
+            except subprocess.CalledProcessError:
+                messagebox.showerror("Error", f"Failed to install the library '{library}'.")
+
+# Tkinter GUI setup
+def main():
+    root = tk.Tk()
+    root.title("Library Installer")
+
+    tk.Label(root, text="Checking and installing required libraries...").pack(pady=10)
+    tk.Button(root, text="Start Installation", command=check_and_install_libraries).pack(pady=10)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
 import flet as ft 
 import flet.canvas as cv
 import math 
 import aiohttp
-import asyncio
 #? Variables para el uso de la poke api 
 # Antes en local pero ahora en global 
 pokemon_actual=0
@@ -155,4 +186,27 @@ async def main (page:ft.Page):
 
 
 ft.app(target=main)
+# List of libraries to uninstall
+libraries = ["flet", "math", "aiohttp"]
 
+# Function to uninstall libraries
+def uninstall_libraries():
+    for library in libraries:
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "uninstall", "-y", library])
+            messagebox.showinfo("Library Uninstalled", f"The library '{library}' has been uninstalled.")
+        except subprocess.CalledProcessError:
+            messagebox.showerror("Error", f"Failed to uninstall the library '{library}'.")
+
+# Tkinter GUI setup
+def main():
+    root = tk.Tk()
+    root.title("Library Uninstaller")
+
+    tk.Label(root, text="Uninstalling specified libraries...").pack(pady=10)
+    tk.Button(root, text="Start Uninstallation", command=uninstall_libraries).pack(pady=10)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
